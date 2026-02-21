@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Data</title>
+</head>
+<body>
+    <h2>Submit Data to MongoDB</h2>
+
+    {% if error %}
+        <p style="color:red;">Error: {{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <input type="text" name="name" placeholder="Enter name" required><br><br>
+        <input type="email" name="email" placeholder="Enter email" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
