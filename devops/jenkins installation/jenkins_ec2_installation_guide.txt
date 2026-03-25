@@ -1,0 +1,175 @@
+JENKINS INSTALLATION ON AWS EC2 (UBUNTU) - COMPLETE PROCESS
+
+Author: Setup Guide Purpose: Install Jenkins on AWS EC2 and access it
+via browser
+
+  ------------------------------------------------------------
+  1. CREATE EC2 INSTANCE
+  ------------------------------------------------------------
+  Login to AWS Console. Go to EC2 Dashboard. Click “Launch
+  Instance”.
+
+  Recommended settings: - AMI: Ubuntu 24.04 LTS - Instance
+  Type: t3.micro (Free tier) - Key Pair: Create or select
+  existing .pem key - Allow SSH (port 22)
+
+  Launch the instance.
+  ------------------------------------------------------------
+
+2. CONNECT TO EC2 INSTANCE
+
+Open terminal and navigate to the folder containing the key.
+
+Example:
+
+ssh -i your-key.pem ubuntu@YOUR_PUBLIC_IP
+
+Example:
+
+ssh -i jenkins-tutorial.pem ubuntu@3.80.3.86
+
+  ------------------
+  3. UPDATE SERVER
+  ------------------
+
+sudo apt update
+
+This refreshes the package list.
+
+  ---------------------------------------
+  4. INSTALL JAVA (JENKINS REQUIREMENT)
+  ---------------------------------------
+
+sudo apt install openjdk-17-jdk -y
+
+Verify installation:
+
+java –version
+
+Jenkins requires Java to run because it is a Java-based automation
+server.
+
+  -----------------------------
+  5. DOWNLOAD JENKINS PACKAGE
+  -----------------------------
+
+wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.452.3_all.deb
+
+This downloads the Jenkins installation package.
+
+  --------------------
+  6. INSTALL JENKINS
+  --------------------
+
+sudo dpkg -i jenkins_2.452.3_all.deb
+
+If dependency errors appear, run:
+
+sudo apt install net-tools -y sudo apt –fix-broken install -y
+
+This installs missing dependencies.
+
+  --------------------------
+  7. START JENKINS SERVICE
+  --------------------------
+
+sudo systemctl start jenkins
+
+Enable Jenkins on system boot:
+
+sudo systemctl enable jenkins
+
+Check service status:
+
+sudo systemctl status jenkins
+
+Expected output:
+
+Active: active (running)
+
+  -----------------------
+  8. CHECK JENKINS PORT
+  -----------------------
+
+sudo netstat -tulpn | grep 8080
+
+Jenkins runs on port 8080 by default.
+
+  -----------------------------------------
+  9. OPEN PORT 8080 IN AWS SECURITY GROUP
+  -----------------------------------------
+
+Go to AWS Console.
+
+EC2 → Instances → Select your instance → Security.
+
+Open Security Group.
+
+Edit Inbound Rules.
+
+Add rule:
+
+Type: Custom TCP Port: 8080 Source: 0.0.0.0/0
+
+Save rules.
+
+  -------------------------------
+  10. ACCESS JENKINS IN BROWSER
+  -------------------------------
+
+Open browser and enter:
+
+http://YOUR_PUBLIC_IP:8080
+
+Example:
+
+http://3.80.3.86:8080
+
+NOTE: Do NOT use https. Jenkins initially runs on HTTP.
+
+  --------------------
+  11. UNLOCK JENKINS
+  --------------------
+
+Get the initial admin password:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy the password.
+
+Paste it into the Jenkins Unlock page.
+
+  ---------------------
+  12. INSTALL PLUGINS
+  ---------------------
+
+Select:
+
+Install Suggested Plugins
+
+This installs commonly used Jenkins plugins.
+
+  -----------------------
+  13. CREATE ADMIN USER
+  -----------------------
+
+Create: - Username - Password - Email
+
+Complete the setup.
+
+  --------------
+  FINAL RESULT
+  --------------
+
+You now have Jenkins running on AWS EC2.
+
+Architecture:
+
+AWS EC2 | v Jenkins Server | v CI/CD Automation
+
+This Jenkins server can now be used to: - Build projects - Run CI/CD
+pipelines - Deploy Docker containers - Integrate with GitHub
+
+  -----------------
+  END OF DOCUMENT
+  -----------------

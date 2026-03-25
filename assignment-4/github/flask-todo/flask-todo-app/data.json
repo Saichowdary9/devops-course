@@ -1,0 +1,11 @@
+[
+    { "id": 1, "name": "Sai"},
+    { "id": 2, "name": "Rahul"},
+    { "id": 3, "name": "Pranathi"}
+]
+
+{
+  "status": "success",
+  "message": "API updated from Tutedude_new branch",
+  "version": "2.0"
+}

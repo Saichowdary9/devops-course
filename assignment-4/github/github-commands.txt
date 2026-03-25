@@ -1,0 +1,16 @@
+ git init
+   git status
+   git add test.py
+  git status
+   git rm --cached
+   git rm --cached test.py
+   git status
+   git add test.py
+   git commit -m "test file is added"
+   git status
+   ls
+   rm test.py
+   ls
+   git status
+   git restore test.py
+   ls
